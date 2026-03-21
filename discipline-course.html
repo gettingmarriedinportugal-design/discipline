@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дисциплина как забота о себе</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d5a27;
+    --forest-mid: #4a7c42;
+    --forest-light: #7aab72;
+    --sage: #8faf8a;
+    --cream: #f5f0e8;
+    --warm: #e8ddc8;
+    --earth: #8b6f4e;
+    --earth-light: #c4a882;
+    --text: #2a2a2a;
+    --text-muted: #6b6b6b;
+    --white: #ffffff;
+    --accent: #c17f3b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Mulish', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-mid) 60%, var(--sage) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 40px;
+    margin-bottom: 32px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 86px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeDown 0.9s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #c8e6c4;
+  }
+
+  .hero .subtitle {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: rgba(255,255,255,0.8);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    animation: fadeDown 1s ease 0.2s both;
+  }
+
+  .hero-cta {
+    background: white;
+    color: var(--forest);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px 40px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeDown 1.1s ease 0.3s both;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .hero-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s ease infinite;
+  }
+
+  .scroll-arrow { font-size: 20px; }
+
+  /* NAVIGATION */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245,240,232,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--warm);
+    padding: 0 24px;
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 16px 20px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-btn.active, .nav-btn:hover {
+    color: var(--forest);
+    border-color: var(--forest);
+  }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+  /* COMMON COMPONENTS */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--forest-light);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--forest);
+    margin-bottom: 24px;
+  }
+
+  .section-intro {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin-bottom: 48px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+
+  .card-dark {
+    background: var(--forest);
+    color: white;
+  }
+
+  .card-dark .card-title { color: white; }
+  .card-dark p, .card-dark .card-body { color: rgba(255,255,255,0.8); }
+
+  .card-earth {
+    background: var(--earth);
+    color: white;
+  }
+
+  .card-earth .card-title { color: white; }
+  .card-earth p { color: rgba(255,255,255,0.85); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 12px;
+  }
+
+  .card-emoji { font-size: 32px; margin-bottom: 16px; display: block; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+
+  .tag {
+    display: inline-block;
+    background: var(--cream);
+    color: var(--forest);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border: 1px solid var(--warm);
+  }
+
+  /* QUOTE */
+  .big-quote {
+    background: linear-gradient(135deg, var(--forest), var(--forest-mid));
+    border-radius: 24px;
+    padding: 48px;
+    margin: 40px 0;
+    text-align: center;
+    color: white;
+  }
+
+  .big-quote blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3.5vw, 28px);
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .big-quote cite {
+    font-size: 14px;
+    opacity: 0.7;
+    letter-spacing: 1px;
+  }
+
+  /* HUMOR BOX */
+  .humor-box {
+    background: #fffbf0;
+    border: 2px solid #f0d88a;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 28px 0;
+    position: relative;
+  }
+
+  .humor-box::before {
+    content: '😄';
+    position: absolute;
+    top: -16px;
+    left: 24px;
+    font-size: 28px;
+    background: #fffbf0;
+    padding: 0 4px;
+  }
+
+  .humor-box p { font-size: 15px; line-height: 1.6; color: #5a4a1a; }
+
+  /* REFLECTION */
+  .reflection-box {
+    background: linear-gradient(135deg, #f0f7ee, #e8f4e5);
+    border-left: 5px solid var(--forest-light);
+    border-radius: 0 16px 16px 0;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+
+  .reflection-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 12px;
+  }
+
+  .reflection-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--forest);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  .reflection-textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid var(--sage);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: white;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+
+  .reflection-textarea:focus { border-color: var(--forest); }
+  .reflection-textarea::placeholder { color: #b0c0ac; }
+
+  .save-btn {
+    background: var(--forest);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .save-btn:hover { background: var(--forest-mid); transform: scale(1.03); }
+  .save-btn.saved { background: var(--earth); }
+
+  /* QUIZ */
+  .quiz-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    margin: 32px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border: 2px solid var(--warm);
+  }
+
+  .quiz-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--forest);
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+  .quiz-option {
+    background: var(--cream);
+    border: 2px solid var(--warm);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Mulish', sans-serif;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .quiz-option:hover { border-color: var(--forest-light); background: #f0f7ee; }
+  .quiz-option.correct { border-color: var(--forest); background: #e0f0db; color: var(--forest); font-weight: 600; }
+  .quiz-option.wrong { border-color: #e07070; background: #fdeaea; color: #a03030; }
+  .quiz-option.disabled { cursor: default; }
+
+  .quiz-feedback {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+    display: none;
+    animation: popIn 0.3s ease;
+  }
+
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #e0f0db; color: #2a5a25; border: 1px solid #7aab72; }
+  .quiz-feedback.wrong { background: #fdeaea; color: #8a2020; border: 1px solid #e09090; }
+
+  /* PROGRESS TRACKER */
+  .progress-container {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    margin: 32px 0;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .progress-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .habit-tracker {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .day-dot {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: var(--warm);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 700;
+    border: 2px solid transparent;
+  }
+
+  .day-dot:hover { transform: scale(1.1); border-color: var(--sage); }
+  .day-dot.done { background: var(--forest); color: white; }
+  .day-dot.today { border-color: var(--accent); }
+
+  .tracker-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  /* BEFORE/AFTER */
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 32px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .before {
+    background: #f0e8e0;
+    padding: 32px;
+    border-right: 3px solid var(--cream);
+  }
+
+  .after {
+    background: var(--forest);
+    padding: 32px;
+    color: white;
+  }
+
+  .before-after-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+
+  .before h4 { color: var(--earth); font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 12px; }
+  .after h4 { color: rgba(255,255,255,0.9); font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 12px; }
+  .before ul, .after ul { list-style: none; }
+  .before li, .after li { padding: 6px 0; font-size: 14px; line-height: 1.5; }
+  .before li::before { content: '✗ '; color: #c07060; font-weight: 700; }
+  .after li::before { content: '✓ '; color: #90e080; font-weight: 700; }
+
+  /* EXAMPLE STORY */
+  .story-box {
+    background: white;
+    border-radius: 20px;
+    padding: 36px;
+    margin: 32px 0;
+    border-left: 6px solid var(--earth-light);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .story-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--earth);
+    margin-bottom: 8px;
+  }
+
+  .story-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .story-box p { font-size: 15px; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; }
+
+  /* STEPS */
+  .steps { margin: 32px 0; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--forest);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .step-content h4 {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .step-content p { font-size: 14px; line-height: 1.6; color: var(--text-muted); }
+
+  /* WEEK BANNER */
+  .week-banner {
+    background: linear-gradient(135deg, var(--earth), var(--earth-light));
+    color: white;
+    border-radius: 20px;
+    padding: 28px 36px;
+    margin: 36px 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .week-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 900;
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .week-info h3 { font-size: 22px; margin-bottom: 6px; }
+  .week-info p { opacity: 0.85; font-size: 14px; }
+
+  /* INTERACTIVE SCALE */
+  .scale-widget {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    margin: 28px 0;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .scale-q { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text); }
+
+  .scale-track {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .scale-btn {
+    flex: 1;
+    padding: 12px 4px;
+    border: 2px solid var(--warm);
+    border-radius: 10px;
+    background: var(--cream);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Mulish', sans-serif;
+    color: var(--text-muted);
+  }
+
+  .scale-btn:hover { border-color: var(--sage); color: var(--forest); }
+  .scale-btn.selected { border-color: var(--forest); background: var(--forest); color: white; }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .scale-result {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: var(--cream);
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--forest);
+    display: none;
+  }
+
+  .scale-result.show { display: block; animation: fadeIn 0.3s ease; }
+
+  /* BOOK REFERENCES */
+  .book-ref {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--warm);
+  }
+
+  .book-icon {
+    width: 44px;
+    height: 56px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .book-ref-text h5 { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--forest); }
+  .book-ref-text p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+  /* HABIT FORMULA */
+  .formula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 32px 0;
+    padding: 32px;
+    background: linear-gradient(135deg, #f0f7ee, #e8edd5);
+    border-radius: 20px;
+  }
+
+  .formula-item {
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .formula-box {
+    background: var(--forest);
+    color: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(45,90,39,0.3);
+  }
+
+  .formula-label { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
+  .formula-op { font-size: 28px; color: var(--sage); font-weight: 300; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin: 20px 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--warm);
+    font-size: 15px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--sage);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .check-box.checked { background: var(--forest); border-color: var(--forest); }
+  .check-box.checked::after { content: '✓'; color: white; font-size: 13px; font-weight: 900; }
+  .checklist li.done-item { color: var(--text-muted); text-decoration: line-through; }
+
+  /* WEEK CARDS */
+  .week-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  .week-card:hover { border-color: var(--sage); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+  .week-card.open { border-color: var(--forest); }
+
+  .week-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .week-badge {
+    background: var(--forest);
+    color: white;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .week-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); }
+  .week-card-arrow { margin-left: auto; font-size: 18px; color: var(--sage); transition: transform 0.3s; }
+  .week-card.open .week-card-arrow { transform: rotate(180deg); }
+
+  .week-card-body {
+    display: none;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--warm);
+  }
+
+  .week-card.open .week-card-body { display: block; animation: fadeIn 0.4s ease; }
+
+  .week-insight {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .week-practice {
+    background: linear-gradient(135deg, #f0f7ee, #e8f4e5);
+    border-radius: 12px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--forest-light);
+    margin-bottom: 12px;
+  }
+
+  .week-practice h5 { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--forest); margin-bottom: 8px; }
+  .week-practice p { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+  /* FINAL CTA */
+  .final-section {
+    text-align: center;
+    padding: 80px 24px;
+    background: linear-gradient(160deg, var(--forest), var(--forest-mid));
+    color: white;
+  }
+
+  .final-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    margin-bottom: 24px;
+    line-height: 1.15;
+  }
+
+  .final-section p {
+    font-size: 18px;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .btn-white {
+    background: white;
+    color: var(--forest);
+    border: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 0 8px 12px;
+  }
+
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+
+  /* TOOLTIP */
+  .tip {
+    display: inline-block;
+    background: var(--forest);
+    color: white;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  .highlight {
+    background: linear-gradient(120deg, #c8e6c4 0%, #a8d8a4 100%);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: var(--forest);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .before-after { grid-template-columns: 1fr; }
+    .formula { gap: 8px; }
+    .formula-op { display: none; }
+    .week-banner { flex-direction: column; gap: 8px; }
+    .week-num { font-size: 40px; }
+    .scale-track { gap: 4px; }
+    .scale-btn { font-size: 11px; padding: 10px 2px; }
+  }
+
+  .progress-bar-wrap { background: var(--warm); border-radius: 50px; height: 6px; margin: 8px 0 20px; }
+  .progress-bar-fill { height: 6px; border-radius: 50px; background: linear-gradient(90deg, var(--forest-light), var(--forest)); transition: width 0.5s ease; }
+
+  .milestone { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; background: var(--cream); }
+  .milestone-icon { font-size: 24px; }
+  .milestone-text { font-size: 14px; color: var(--text); }
+  .milestone-text strong { color: var(--forest); }
+
+  .tag-line {
+    text-align: center;
+    padding: 40px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    color: var(--forest);
+    font-style: italic;
+    border-top: 1px solid var(--warm);
+    border-bottom: 1px solid var(--warm);
+    margin: 40px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="badge">✦ Практический курс · Версия 1.0</div>
+  <h1>Дисциплина как<br><em>забота о себе</em></h1>
+  <p class="subtitle">Полный курс устойчивой самоорганизации — без силы воли, без самоистязания, с юмором и честностью</p>
+  <a class="hero-cta" onclick="showSection('intro')">Начать курс →</a>
+  <div class="scroll-hint">
+    <span>Прокрути вниз</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn" onclick="showSection('intro')">🌱 Введение</button>
+    <button class="nav-btn" onclick="showSection('module1')">1. Философия</button>
+    <button class="nav-btn" onclick="showSection('module2')">2. Основа</button>
+    <button class="nav-btn" onclick="showSection('module3')">3. Среда</button>
+    <button class="nav-btn" onclick="showSection('module4')">4. 8 недель</button>
+    <button class="nav-btn" onclick="showSection('module5')">5. Инструменты</button>
+    <button class="nav-btn" onclick="showSection('tracker')">📊 Трекер</button>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<div class="section" id="intro">
+  <div class="section-label">Добро пожаловать</div>
+  <h1 class="section-title">Прежде чем начать,<br>давайте честно</h1>
+  <p class="section-intro">Этот курс — не про то, как стать роботом с идеальным расписанием. Это про то, как наконец-то перестать воевать с собой.</p>
+
+  <div class="humor-box">
+    <p><strong>Честная статистика:</strong> 87% людей покупают курсы по продуктивности в воскресенье вечером, вдохновившись. В следующую среду они уже не помнят, где сохранили ссылку. <em>Вы не такие. Ведь вы уже здесь — в среду утром (или когда там у вас).</em> 🎉</p>
+  </div>
+
+  <div class="before-after">
+    <div class="before">
+      <div class="before-after-label">До курса</div>
+      <h4>Знакомо?</h4>
+      <ul>
+        <li>«С понедельника точно начну»</li>
+        <li>Список дел на 40 пунктов</li>
+        <li>Сила воли кончается к обеду</li>
+        <li>Чувство вины за «слабость»</li>
+        <li>Снова смотришь в телефон</li>
+      </ul>
+    </div>
+    <div class="after">
+      <div class="before-after-label">После курса</div>
+      <h4>Что будет</h4>
+      <ul>
+        <li>Система, которая держит сама</li>
+        <li>3 приоритета вместо 40 задач</li>
+        <li>Действия встроены в жизнь</li>
+        <li>Возвращение без самобичевания</li>
+        <li>Телефон — инструмент, не враг</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-question">Мини-тест: Как вы обычно реагируете, когда «срываетесь» с привычки?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q1', '😬 Это классическая «всё или ничего» ловушка. Один пропуск не разрушает систему — разрушает вторая реакция на него.')">«Ну всё, я слабак, это не для меня»</button>
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q1', '🤔 Хорошее намерение! Но жёсткие наказания создают сопротивление. Мозг начинает ассоциировать привычку с болью.')">Наказываю себя дополнительной нагрузкой</button>
+      <button class="quiz-option" onclick="answerQuiz(this, true, 'q1', '🎯 Золото! Джеймс Клир в «Атомных привычках» называет это «Правило никогда не пропускать дважды». Один пропуск — ошибка. Два подряд — начало нового паттерна.')">Замечаю, не сужу, возвращаюсь</button>
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q1', '😅 Знакомо! Именно поэтому курс начинается с психологии, а не с расписаний.')">Забываю, что вообще хотел что-то делать</button>
+    </div>
+    <div class="quiz-feedback" id="q1-feedback"></div>
+  </div>
+
+  <div class="reflection-box">
+    <div class="reflection-label">🪞 Рефлексия — Старт</div>
+    <h4>Прямо сейчас: что вы хотите изменить в своей жизни, записав это честно?</h4>
+    <textarea class="reflection-textarea" id="ref-start" placeholder="Напишите 2-3 вещи, которые вас беспокоят прямо сейчас. Не надо быть идеальным — просто честно..."></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-start', this)">Сохранить →</button>
+  </div>
+
+  <div class="big-quote">
+    <blockquote>«Вы не поднимаетесь до уровня своих целей. Вы падаете до уровня своих систем.»</blockquote>
+    <cite>— Джеймс Клир, «Атомные привычки»</cite>
+  </div>
+
+  <div class="grid-2">
+    <div class="book-ref">
+      <div class="book-icon" style="background: #2d5a27;">📗</div>
+      <div class="book-ref-text">
+        <h5>Атомные привычки — Джеймс Клир</h5>
+        <p>Маленькие изменения, которые приносят большие результаты. Курс активно использует эту методологию.</p>
+      </div>
+    </div>
+    <div class="book-ref">
+      <div class="book-icon" style="background: #8b6f4e;">📚</div>
+      <div class="book-ref-text">
+        <h5>Самодисциплина — Рой Баумейстер</h5>
+        <p>Сила воли — ограниченный ресурс. Именно поэтому мы строим системы, а не тренируем «железную волю».</p>
+      </div>
+    </div>
+    <div class="book-ref">
+      <div class="book-icon" style="background: #4a7c42;">📘</div>
+      <div class="book-ref-text">
+        <h5>Сила привычки — Чарлз Дахигг</h5>
+        <p>Петля привычки: триггер — рутина — награда. Здесь мы научимся её перепрограммировать.</p>
+      </div>
+    </div>
+    <div class="book-ref">
+      <div class="book-icon" style="background: #c4a882;">📙</div>
+      <div class="book-ref-text">
+        <h5>Эссенциализм — Грег МакКеон</h5>
+        <p>Меньше, но лучше. Делать то, что действительно важно, а не всё подряд.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('module1')">Перейти к Модулю 1 →</button>
+  </div>
+</div>
+
+<!-- MODULE 1 -->
+<div class="section" id="module1">
+  <div class="section-label">Модуль 1</div>
+  <h1 class="section-title">Новая философия дисциплины</h1>
+  <p class="section-intro">Прежде чем строить систему, нужно разобраться с тем, почему старые подходы не работают. Спойлер: дело не в вас.</p>
+
+  <div class="humor-box">
+    <p><strong>Культурный миф #1:</strong> «Успешные люди просто более дисциплинированы». Нет. Они просто создали системы, в которых правильное поведение — это путь наименьшего сопротивления. Майкл Фелпс не «заставлял» себя плавать. Он организовал жизнь так, что бассейн был естественной частью дня. <em>Разница принципиальная.</em></p>
+  </div>
+
+  <div class="card card-dark">
+    <span class="card-emoji">🧠</span>
+    <div class="card-title">Почему сила воли — плохая стратегия</div>
+    <p>Исследования Рой Баумейстера показали: сила воли работает как мышца — она устаёт. К вечеру у большинства людей она практически на нуле. Вот почему все плохие решения принимаются после 21:00.</p>
+  </div>
+
+  <div class="tag-line">"Дисциплина — это не жёсткость. Это любовь к будущей версии себя."</div>
+
+  <div class="story-box">
+    <div class="story-label">📖 История из жизни</div>
+    <h4>Маша и её 30-дневные вызовы</h4>
+    <p>Маша каждый январь начинала: ранние подъёмы, бег, дневник, медитация, отказ от сахара — всё сразу. К 15-му она чувствовала себя настолько хорошо, что... позволяла себе «один» день отдыха. Который превращался в две недели.</p>
+    <p>Проблема была не в лени. Маша совершала классическую ошибку: пыталась изменить поведение силой воли, не изменив окружение. Сахар стоял на виду. Кроссовки лежали под кроватью. Телефон с соцсетями — на тумбочке у кровати.</p>
+    <p><strong>Что изменилось:</strong> Маша убрала сахар из поля зрения, положила кроссовки у двери, поставила телефон заряжаться в другой комнате. <span class="highlight">Через месяц привычки закрепились.</span> Без единого «30-дневного вызова».</p>
+  </div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--forest); margin: 40px 0 24px;">Три ключевых сдвига мышления</h3>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="card-emoji">🪞</span>
+      <div class="card-title">От «делать» к «быть»</div>
+      <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">«Я хочу бегать» → «Я человек, который двигается каждый день». Идентичность сильнее целей.</p>
+    </div>
+    <div class="card">
+      <span class="card-emoji">🌱</span>
+      <div class="card-title">От «всё» к «достаточно»</div>
+      <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">1% прогресса ежедневно = 37x рост за год. «Маленькое что-то» бесконечно лучше «ничего идеального».</p>
+    </div>
+    <div class="card">
+      <span class="card-emoji">🔁</span>
+      <div class="card-title">От «провала» к «данным»</div>
+      <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">Пропустил день — это не провал, это информация. Что помешало? Как сделать проще в следующий раз?</p>
+    </div>
+  </div>
+
+  <div class="scale-widget">
+    <div class="scale-q">Насколько сейчас дисциплина для вас ощущается как «насилие над собой»? (1 — совсем нет, 5 — сплошные пытки)</div>
+    <div class="scale-track">
+      <button class="scale-btn" onclick="selectScale(this, 'sc1', 1, 'Отлично! Вы уже интуитивно понимаете заботу о себе. Этот курс поможет сделать это системой.')">1</button>
+      <button class="scale-btn" onclick="selectScale(this, 'sc1', 2, 'Хорошая база! Иногда бывает сопротивление, но вы умеете с ним работать.')">2</button>
+      <button class="scale-btn" onclick="selectScale(this, 'sc1', 3, 'Типичная картина! Половина времени мотивация есть, половина — приходится заставлять. Именно это мы и будем менять.')">3</button>
+      <button class="scale-btn" onclick="selectScale(this, 'sc1', 4, 'Это очень честный ответ. Скорее всего, прошлые подходы были слишком жёсткими. Мы начнём заново, мягко.')">4</button>
+      <button class="scale-btn" onclick="selectScale(this, 'sc1', 5, 'Важно это признать. Значит, прошлые системы вам не подходили — они были чужими. Этот курс про создание ВАШЕЙ системы.')">5</button>
+    </div>
+    <div class="scale-labels"><span>Легко</span><span>Пытка</span></div>
+    <div class="scale-result" id="sc1-result"></div>
+  </div>
+
+  <div class="reflection-box">
+    <div class="reflection-label">🪞 Рефлексия — Модуль 1</div>
+    <h4>Когда в последний раз вы «заставляли» себя что-то делать? Что именно вам мешало сделать это легче?</h4>
+    <textarea class="reflection-textarea" id="ref-m1" placeholder="Подумайте о конкретной ситуации. Что было препятствием — усталость? Окружение? Непонятный смысл действия?"></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-m1', this)">Сохранить →</button>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-question">Вы устали в пятницу вечером и хотите пропустить тренировку. Что правильнее всего?</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q2', '❌ Это создаёт паттерн: усталость = полная отмена. Постепенно «устал» становится любым поводом.')">Отменить полностью — тело просит отдыха.</button>
+      <button class="quiz-option" onclick="answerQuiz(this, true, 'q2', '✅ Это называется «минимальная жизнеспособная доза». 10 минут растяжки поддерживают ИДЕНТИЧНОСТЬ «я человек, который двигается» — и это важнее подвигов.')">Сделать 10-минутную версию — растяжку дома.</button>
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q2', '❌ Эмоциональное насилие в качестве мотивации работает только краткосрочно. Долгосрочно — это путь к выгоранию.')">Заставить себя через «надо» — слабаки отдыхают.</button>
+      <button class="quiz-option" onclick="answerQuiz(this, false, 'q2', '🤔 Чуть-чуть лучше! Но планирование без действия легко превращается в прокрастинацию.')">Запланировать на завтра и ничего не делать.</button>
+    </div>
+    <div class="quiz-feedback" id="q2-feedback"></div>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('module2')">Модуль 2: Основа →</button>
+  </div>
+</div>
+
+<!-- MODULE 2 -->
+<div class="section" id="module2">
+  <div class="section-label">Модуль 2</div>
+  <h1 class="section-title">Основа: гармония<br>и внутренние опоры</h1>
+  <p class="section-intro">Дисциплина без смысла — это насилие. Здесь мы находим, ради чего вообще строить систему.</p>
+
+  <div class="humor-box">
+    <p><strong>Парадокс продуктивности:</strong> Люди записываются на курс по тайм-менеджменту, чтобы успевать больше работать, чтобы зарабатывать больше денег, чтобы... когда-нибудь наконец отдохнуть. <em>Может, начнём с другого конца?</em> 🌀</p>
+  </div>
+
+  <div class="big-quote">
+    <blockquote>«Знать себя — значит понимать, что для вас является энергией, а что — дренажом.»</blockquote>
+    <cite>— Грег МакКеон, «Эссенциализм»</cite>
+  </div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--forest); margin: 36px 0 20px;">Инструмент 1: Колесо жизненного баланса</h3>
+
+  <div class="card">
+    <div class="card-title">🎡 Оцените сферы жизни от 1 до 10</div>
+    <p style="margin-bottom: 24px; color: var(--text-muted); font-size: 14px;">Не как «должно быть» — а как есть прямо сейчас.</p>
+    <div id="wheel-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <!-- generated by JS -->
+    </div>
+    <button onclick="buildWheel()" style="margin-top: 24px; background: var(--forest); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-family: 'Mulish', sans-serif; font-weight: 700; cursor: pointer; font-size: 14px;">Построить колесо →</button>
+    <canvas id="wheelCanvas" width="320" height="320" style="display:none; margin: 24px auto; display: none; max-width: 100%;"></canvas>
+    <div id="wheel-insight" style="display:none;"></div>
+  </div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--forest); margin: 40px 0 20px;">Инструмент 2: Мини-Икигай</h3>
+
+  <div class="grid-2">
+    <div class="card" style="border-top: 4px solid var(--forest);">
+      <span class="card-emoji">❤️</span>
+      <div class="card-title">Что вы любите?</div>
+      <textarea class="reflection-textarea" id="ikigai-love" placeholder="Что вас захватывает настолько, что вы забываете о времени?" style="min-height: 80px;"></textarea>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--earth);">
+      <span class="card-emoji">💪</span>
+      <div class="card-title">В чём вы хороши?</div>
+      <textarea class="reflection-textarea" id="ikigai-good" placeholder="Что получается у вас лучше, чем у большинства?" style="min-height: 80px;"></textarea>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--forest-light);">
+      <span class="card-emoji">🌍</span>
+      <div class="card-title">Что нужно миру?</div>
+      <textarea class="reflection-textarea" id="ikigai-world" placeholder="Какую проблему или боль окружающих вы хотите решить?" style="min-height: 80px;"></textarea>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--accent);">
+      <span class="card-emoji">💰</span>
+      <div class="card-title">За что платят?</div>
+      <textarea class="reflection-textarea" id="ikigai-paid" placeholder="За что люди готовы платить или благодарить?" style="min-height: 80px;"></textarea>
+    </div>
+  </div>
+  <button onclick="buildIkigai()" style="margin-top: 8px; background: var(--forest); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-family: 'Mulish', sans-serif; font-weight: 700; cursor: pointer; font-size: 14px;">Получить инсайт →</button>
+  <div id="ikigai-result" style="display:none; margin-top: 20px;" class="card card-dark"></div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--forest); margin: 40px 0 20px;">Инструмент 3: Вехи как ресурс</h3>
+
+  <div class="card" style="background: linear-gradient(135deg, #f9f5ee, #f0ead8);">
+    <div class="card-title">🏆 Ваши достижения за последний год</div>
+    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Мы склонны замечать только провалы. Давайте исправим это прямо сейчас.</p>
+    <textarea class="reflection-textarea" id="ref-wins" placeholder="Перечислите 5-7 вещей, которые вы сделали или изменили за последний год. Даже маленькие считаются..." style="min-height: 140px;"></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-wins', this)" style="margin-top: 12px;">Сохранить достижения →</button>
+  </div>
+
+  <div class="reflection-box">
+    <div class="reflection-label">🪞 Рефлексия — Модуль 2</div>
+    <h4>В каких сферах жизни вы чувствуете наибольший «перекос»? Что вы хотите изменить в первую очередь?</h4>
+    <textarea class="reflection-textarea" id="ref-m2" placeholder="Будьте конкретны. Не «стать счастливее», а «я хочу чтобы моя работа занимала меньше времени и я мог ужинать с семьёй»..."></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-m2', this)">Сохранить →</button>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('module3')">Модуль 3: Среда →</button>
+  </div>
+</div>
+
+<!-- MODULE 3 -->
+<div class="section" id="module3">
+  <div class="section-label">Модуль 3</div>
+  <h1 class="section-title">Организация пространства:<br>пространство — это внешний мозг</h1>
+  <p class="section-intro">Вы принимаете тысячи микрорешений в день. Правильно организованная среда делает большинство из них автоматически.</p>
+
+  <div class="humor-box">
+    <p><strong>Эксперимент:</strong> Если поставить вазу с конфетами на стол — люди съедают в 3 раза больше. Если убрать за 2 метра — в 2 раза меньше. <em>Воля воли, но... кто поставил конфеты на стол?</em> Правильно. Вы. Тогда. Вы же можете их убрать. Сейчас.</p>
+  </div>
+
+  <div class="big-quote">
+    <blockquote>«Создайте окружение, где делать правильные вещи легко, а неправильные — трудно.»</blockquote>
+    <cite>— Джеймс Клир</cite>
+  </div>
+
+  <h3 style="font-family: 'Playfair Display', serif; font-size: 24px; color: var(--forest); margin: 36px 0 24px;">Принципы дизайна среды</h3>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Принцип видимости: хочешь делать — сделай видимым</h4>
+        <p>Книга на прикроватном столике = читаешь каждый вечер. Кроссовки у двери = выходишь на прогулку. Бутылка воды на столе = пьёшь воду. Всё просто до неприличия.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Принцип трения: хочешь избежать — создай барьер</h4>
+        <p>Телефон в другой комнате на зарядке = -60% времени в соцсетях. Удалить приложения = меньше бездумного скроллинга. Убрать сладкое из холодильника = сложнее съесть. Friction is your friend.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Правило 5 минут: если займёт меньше 5 минут — делай сейчас</h4>
+        <p>Не «потом» (потом = никогда). Сразу. Написать ответ, вымыть тарелку, записать идею. Небольшие незакрытые задачи создают ментальный шум.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Зоны и функции: каждое место — для одного типа активности</h4>
+        <p>Рабочий стол = только работа. Диван = только отдых (не работа с ноутбука на коленях). Кровать = сон и чтение. Мозг учится переключаться по пространственным триггерам.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background: linear-gradient(135deg, #f0f7ee, #e5f0e2);">
+    <div class="card-title">🏠 Аудит вашего пространства</div>
+    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">Пройдитесь по каждому пункту и поставьте галочку, если это уже реализовано:</p>
+    <ul class="checklist" id="space-checklist">
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Телефон заряжается вне спальни</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>На рабочем столе только необходимое</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Книга/дневник лежит на виду</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Спортивная одежда/кроссовки готовы с вечера</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Бутылка воды стоит рядом</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Вредные продукты не на виду</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Уведомления приложений отключены или ограничены</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Есть отдельное место для работы (не кровать)</li>
+    </ul>
+    <div id="checklist-score" style="margin-top: 16px; font-weight: 700; color: var(--forest); font-size: 15px;"></div>
+  </div>
+
+  <div class="humor-box">
+    <p><strong>Важно:</strong> Не нужно делать всё за один день. Это не уборка — это перестройка среды. Начните с одного пункта. Самого лёгкого. Прямо сегодня. <em>Телефон в другую комнату — это буквально 10 секунд.</em></p>
+  </div>
+
+  <div class="reflection-box">
+    <div class="reflection-label">🪞 Рефлексия — Модуль 3</div>
+    <h4>Какие 3 изменения в вашем окружении дали бы наибольший эффект?</h4>
+    <textarea class="reflection-textarea" id="ref-m3" placeholder="Будьте конкретны: не «убрать отвлечения», а «переставить телефон на зарядку в кухню каждый вечер в 21:00»..."></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-m3', this)">Сохранить план →</button>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('module4')">Модуль 4: 8 недель практики →</button>
+  </div>
+</div>
+
+<!-- MODULE 4 -->
+<div class="section" id="module4">
+  <div class="section-label">Модуль 4</div>
+  <h1 class="section-title">8 недель практики:<br>от хаоса к системе</h1>
+  <p class="section-intro">Каждая неделя — одна ключевая идея, одна практика, один микрошаг. Нажмите на неделю, чтобы развернуть.</p>
+
+  <div class="humor-box">
+    <p><strong>Правило курса:</strong> «Делай по силам» — не значит «делай мало». Значит делай устойчиво. 5 минут каждый день > 3 часа раз в неделю. <em>Черепаха выиграла у зайца не потому что была быстрее. А потому что не останавливалась.</em> 🐢</p>
+  </div>
+
+  <!-- Week 1 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 1</span>
+      <div class="week-card-title">Точка ноль: где я сейчас?</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">🎯 <strong>Главная идея:</strong> Прежде чем строить, нужно увидеть текущую реальность без осуждения. Честная оценка — это акт самоуважения, не самокритики.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Журнал времени»:</strong> 3 дня фиксируйте всё, что делаете, каждые 30 минут. Просто факты: «9:00 — открыл почту, потом залип в инстаграм 40 минут». Без оценок.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>5 минут вечером: записать 3 вещи, которые вы сделали сегодня (любых). Это строит привычку рефлексии.</p>
+      </div>
+      <div class="week-practice">
+        <h5>👁️ Инструмент наблюдения</h5>
+        <p>Используйте любой заметки — физические или цифровые. Главное — <strong>носите с собой</strong>. Мысль, не записанная сразу, исчезает.</p>
+      </div>
+      <div class="humor-box" style="margin-top: 16px;">
+        <p>После 3 дней журнала большинство людей обнаруживают, что тратят 2-3 часа в день на то, о чём не помнят. <em>Это не проблема — это данные. Золото, которое вы раньше не видели.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 2 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 2</span>
+      <div class="week-card-title">Ритмы и энергия: понять свои циклы</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">⚡ <strong>Главная идея:</strong> Мы не машины с одинаковой производительностью 24/7. У каждого человека есть пики и спады. Работать против своих ритмов — всё равно что плыть против течения.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Карта энергии»:</strong> Неделю отмечайте уровень энергии каждые 2 часа (1-5). Найдите свои пиковые часы. Для большинства это 9-11 утра. Именно тогда — самое важное.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>Определите одно дело, которое вы сейчас делаете в «плохое» время (сложные задачи вечером). Перенесите его на утро.</p>
+      </div>
+      <div class="story-box" style="margin-top: 16px; margin-bottom: 0;">
+        <div class="story-label">💡 Пример</div>
+        <h4>Андрей, предприниматель</h4>
+        <p>Обнаружил, что его пик — 8-11 утра. Перенёс все созвоны на послеполудень, утро посвятил стратегическим задачам. Продуктивность выросла в 2 раза без единой новой привычки.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 3 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 3</span>
+      <div class="week-card-title">Утечки времени: найти «чёрные дыры»</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">⏳ <strong>Главная идея:</strong> Время не исчезает — оно утекает в конкретные дыры. Соцсети, ненужные встречи, бесконечные переключения между задачами. Один закрытый источник утечки = 30-60 минут в день.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Аудит 3 главных утечек»:</strong> Используя журнал из недели 1, найдите 3 вещи, которые съедают время, не давая ценности. Не всё — три главных. Предложите одно конкретное изменение для каждого.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>Установите лимит экранного времени на одно приложение — соцсети, новости или YouTube. Начните с -30% от текущего. Не с нуля.</p>
+      </div>
+      <div class="humor-box" style="margin-top: 16px;">
+        <p>Средний человек проводит в соцсетях 2.5 часа в день = 912 часов в год = 38 полных суток. <em>За это время можно выучить новый язык, написать книгу или пройти 10 онлайн-курсов. Или продолжать листать мемы. Выбор ваш.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 4 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 4</span>
+      <div class="week-card-title">Маленькие шаги: сила микропривычек</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">🌱 <strong>Главная идея:</strong> Атомные привычки Клира: привычка должна быть настолько маленькой, что отказаться стыднее, чем сделать. «Буду читать 1 страницу» легче удержать, чем «буду читать час». И 1 страница превращается в 20.</div>
+
+      <div class="formula">
+        <div class="formula-item">
+          <div class="formula-box">Триггер</div>
+          <div class="formula-label">Когда я...</div>
+        </div>
+        <div class="formula-op">→</div>
+        <div class="formula-item">
+          <div class="formula-box">Рутина</div>
+          <div class="formula-label">Я делаю...</div>
+        </div>
+        <div class="formula-op">→</div>
+        <div class="formula-item">
+          <div class="formula-box" style="background: var(--earth);">Награда</div>
+          <div class="formula-label">Чтобы...</div>
+        </div>
+      </div>
+
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Стекинг привычек»:</strong> Привяжите новую привычку к уже существующей. «После утреннего кофе я читаю 5 минут». «После чистки зубов я записываю 3 намерения на день». Сила — в связке.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>Выберите одну привычку, которую хотите внедрить. Уменьшите её до абсурдно маленького размера. Потренируйтесь 7 дней.</p>
+      </div>
+
+      <div class="card" style="margin-top: 20px; background: var(--cream);">
+        <div class="card-title">🔗 Создайте свою связку привычек</div>
+        <textarea class="reflection-textarea" id="habit-stack" placeholder="После _________________ я буду _________________. Это займёт _____ минут. Я буду делать это каждый день в _____ часов." style="min-height: 100px;"></textarea>
+        <br><button class="save-btn" onclick="saveReflection('habit-stack', this)">Зафиксировать →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 5 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 5</span>
+      <div class="week-card-title">Опоры и среда: строим поддержку</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">🏗️ <strong>Главная идея:</strong> Вы — средняя арифметическая пяти людей, которых видите чаще всего. Ваше окружение либо поддерживает рост, либо тянет назад. Это не приговор — это карта для изменений.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Аудит окружения»:</strong> Кто в вашей жизни вас заряжает? Кто — опустошает? Какие группы/чаты/контент вдохновляют? Что — создаёт тревогу или зависть? Составьте список — и сделайте 1 изменение.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>Найдите одного человека, который уже делает то, что вы хотите делать. Напишите ему. Попросите совета или просто скажите, что вдохновляетесь. Люди любят это.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 6 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 6</span>
+      <div class="week-card-title">Когда трудно: работа с сопротивлением</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">💪 <strong>Главная идея:</strong> Сопротивление — это нормально. Это сигнал, что вы растёте. Бодибилдер знает: боль в мышцах — признак роста, не травмы. В привычках то же самое.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Протокол Если-То»:</strong> Заранее спланируйте ответ на препятствие. «Если я устал после работы, то я сделаю 10-минутную версию». «Если я пропустил день, то завтра без лишних мыслей возвращаюсь». Запишите 3 своих типичных препятствия и ответы на них.</p>
+      </div>
+      <div class="week-practice">
+        <h5>🪜 Микрошаг</h5>
+        <p>«Правило 2 минут»: Когда ничего не хочется — начни делать 2 минуты. Только 2. Если после 2 минут всё ещё не хочется — стоп, молодец. Но обычно вы продолжаете.</p>
+      </div>
+      <div class="humor-box" style="margin-top: 16px;">
+        <p>Секрет профессионалов: они тоже не хотят. Разница в том, что они знают: чувство «не хочу» пройдёт через 5 минут после старта. <em>Мотивация не предшествует действию — она следует за ним.</em> Сначала делаешь. Потом появляется желание.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 7 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge">Неделя 7</span>
+      <div class="week-card-title">Свой ритм: персональная система</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">🎨 <strong>Главная идея:</strong> Нет универсальной системы. Есть ваша система. Одни работают утром, другие — ночью. Одним нужны списки, другим — минималистичные заметки. Ваша задача — найти своё, а не копировать чужое.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Недельный шаблон»:</strong> Создайте базовый шаблон вашей идеальной недели. Не жёсткое расписание — а скорее «музыкальную партитуру»: когда примерно что происходит. Работа, отдых, движение, социальное, одиночество.</p>
+      </div>
+      <div class="card" style="margin-top: 16px; background: var(--cream);">
+        <div class="card-title">📅 Мой шаблон недели</div>
+        <textarea class="reflection-textarea" id="week-template" placeholder="Утро: ___&#10;Рабочие часы: ___&#10;Обед/отдых: ___&#10;Вечер: ___&#10;Выходные: ___&#10;&#10;Мои «священные» часы (неприкосновенны): ___" style="min-height: 160px;"></textarea>
+        <br><button class="save-btn" onclick="saveReflection('week-template', this)">Сохранить шаблон →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week 8 -->
+  <div class="week-card" onclick="toggleWeek(this)">
+    <div class="week-card-header">
+      <span class="week-badge" style="background: var(--accent);">Неделя 8</span>
+      <div class="week-card-title">Устойчивость: закрепление на будущее</div>
+      <span class="week-card-arrow">▼</span>
+    </div>
+    <div class="week-card-body">
+      <div class="week-insight">🌳 <strong>Главная идея:</strong> Финальная неделя — не завершение, а начало. Система устойчива не когда всё идёт хорошо, а когда вы умеете возвращаться после сбоев без драмы.</div>
+      <div class="week-practice">
+        <h5>📝 Практика недели</h5>
+        <p><strong>«Quarterly Review»:</strong> Раз в месяц — 30-минутный обзор. Что работает? Что не работает? Что нужно изменить? Это не самокритика — это техническое обслуживание вашей системы.</p>
+      </div>
+      <div class="week-practice">
+        <h5>📬 Письмо себе</h5>
+        <p>Напишите письмо себе через 90 дней. Что вы хотите к тому моменту изменить? Что вы хотите отметить? Прочитайте тогда.</p>
+      </div>
+      <div class="card" style="margin-top: 16px; background: linear-gradient(135deg, #f0f7ee, #e8f4e5);">
+        <div class="card-title">✉️ Письмо себе через 90 дней</div>
+        <textarea class="reflection-textarea" id="letter-self" placeholder="Дорогой я...&#10;&#10;К тому моменту я хочу, чтобы ты...&#10;&#10;Мне важно, чтобы ты помнил...&#10;&#10;Горжусь тобой за то, что ты..." style="min-height: 200px;"></textarea>
+        <br><button class="save-btn" onclick="saveReflection('letter-self', this)">Запечатать письмо →</button>
+      </div>
+      <div class="big-quote" style="margin-top: 24px;">
+        <blockquote>«Не важно, как медленно ты идёшь — главное не останавливаться.»</blockquote>
+        <cite>— Конфуций (который точно не имел в виду 30-дневные вызовы)</cite>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('module5')">Модуль 5: Инструменты →</button>
+  </div>
+</div>
+
+<!-- MODULE 5 -->
+<div class="section" id="module5">
+  <div class="section-label">Модуль 5</div>
+  <h1 class="section-title">Цифровые инструменты<br>и AI-ассистенты</h1>
+  <p class="section-intro">Технологии — усиление, а не костыль. Сначала система в голове, потом приложения.</p>
+
+  <div class="humor-box">
+    <p><strong>Ирония продуктивности:</strong> Самые популярные приложения по продуктивности — это также самые большие источники прокрастинации. Люди часами настраивают Notion вместо того, чтобы начать работать. <em>Идеальный инструмент — тот, которым вы пользуетесь, а не тот, который красиво выглядит на скриншоте.</em></p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="card-emoji">🎯</span>
+      <div class="card-title">Приложения для фокуса</div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">Forest — растите дерево пока работаете. Freedom — блокируйте сайты. Focus — таймер Помодоро.</p>
+      <div class="tag">Forest</div><div class="tag">Freedom</div><div class="tag">Focus</div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--forest); font-weight: 600;">💡 Начните с Помодоро: 25 мин работы, 5 мин отдыха.</div>
+    </div>
+    <div class="card">
+      <span class="card-emoji">📋</span>
+      <div class="card-title">Планировщики</div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">Todoist — простые списки. Notion — гибкая система. Trello — визуальные доски. Google Calendar — время как ресурс.</p>
+      <div class="tag">Todoist</div><div class="tag">Notion</div><div class="tag">Trello</div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--forest); font-weight: 600;">💡 Начните с самого простого. Сложность убивает.</div>
+    </div>
+    <div class="card">
+      <span class="card-emoji">🤖</span>
+      <div class="card-title">AI-ассистенты</div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">ChatGPT/Claude — планирование, рефлексия, разбор препятствий. Motion/Reclaim — автоматическое планирование задач с учётом энергии.</p>
+      <div class="tag">Claude</div><div class="tag">ChatGPT</div><div class="tag">Motion</div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--forest); font-weight: 600;">💡 AI как коуч: задайте вопрос «Почему я откладываю X?»</div>
+    </div>
+    <div class="card">
+      <span class="card-emoji">📊</span>
+      <div class="card-title">Трекеры привычек</div>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6;">Habitica — геймификация. Streaks — серии. Buch — минималистичный трекер. Или просто — бумага и ручка.</p>
+      <div class="tag">Habitica</div><div class="tag">Streaks</div><div class="tag">Бумага</div>
+      <div style="margin-top: 12px; font-size: 13px; color: var(--forest); font-weight: 600;">💡 Лучший трекер — тот, который вы не бросите через неделю.</div>
+    </div>
+  </div>
+
+  <div class="card card-dark" style="margin: 32px 0;">
+    <span class="card-emoji">⚠️</span>
+    <div class="card-title">Золотое правило технологий</div>
+    <p>Технологии — это усилители. Они усиливают то, что уже есть. У вас хороший фундамент? Технологии сделают его ещё лучше. Фундамента нет? Новое приложение не спасёт.</p>
+    <p style="margin-top: 12px;">Внедряйте инструменты <strong>только после</strong> того, как освоили принципы из предыдущих модулей.</p>
+  </div>
+
+  <div class="reflection-box">
+    <div class="reflection-label">🪞 Итоговая рефлексия</div>
+    <h4>Оглядываясь на весь курс: что вас удивило? Что изменилось в том, как вы думаете о дисциплине?</h4>
+    <textarea class="reflection-textarea" id="ref-final" placeholder="Запишите 3 главных инсайта из курса. Что вы сделаете на этой неделе — первый шаг?"></textarea>
+    <br><button class="save-btn" onclick="saveReflection('ref-final', this)">Сохранить итоги →</button>
+  </div>
+
+  <div style="text-align:center; margin-top: 48px;">
+    <button class="hero-cta" onclick="showSection('tracker')">Перейти к трекеру →</button>
+  </div>
+</div>
+
+<!-- TRACKER -->
+<div class="section" id="tracker">
+  <div class="section-label">Мой прогресс</div>
+  <h1 class="section-title">Личный трекер</h1>
+  <p class="section-intro">Отмечайте ежедневные привычки. Помните: цель не идеальная полоса, а возвращение после пропуска.</p>
+
+  <div id="tracker-habits">
+    <div class="progress-container">
+      <div class="progress-title">🏃 Движение (10+ минут)</div>
+      <div class="tracker-label">Нажмите на день чтобы отметить ✓</div>
+      <div class="habit-tracker" id="h1"></div>
+      <div id="h1-score" style="font-size: 13px; color: var(--forest); font-weight: 700;"></div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-title">📖 Чтение / обучение</div>
+      <div class="tracker-label">Хотя бы 10 минут</div>
+      <div class="habit-tracker" id="h2"></div>
+      <div id="h2-score" style="font-size: 13px; color: var(--forest); font-weight: 700;"></div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-title">🪞 Вечерняя рефлексия</div>
+      <div class="tracker-label">3 вещи дня / одно намерение</div>
+      <div class="habit-tracker" id="h3"></div>
+      <div id="h3-score" style="font-size: 13px; color: var(--forest); font-weight: 700;"></div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-title">📵 Без телефона в первый час</div>
+      <div class="tracker-label">Первый час дня — без экрана</div>
+      <div class="habit-tracker" id="h4"></div>
+      <div id="h4-score" style="font-size: 13px; color: var(--forest); font-weight: 700;"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 32px; background: linear-gradient(135deg, #f0f7ee, #e8f4e5);">
+    <div class="card-title">🌱 Моя главная привычка на этот месяц</div>
+    <textarea class="reflection-textarea" id="main-habit" placeholder="Запишите одну привычку, которую вы встраиваете прямо сейчас. Максимально конкретно: что, когда, как долго..." style="min-height: 80px;"></textarea>
+    <br><button class="save-btn" onclick="saveReflection('main-habit', this)">Зафиксировать →</button>
+  </div>
+
+  <div class="humor-box">
+    <p><strong>Напоминание:</strong> Если вы пропустили вчера — это не конец. Правило: <em>никогда не пропускать дважды подряд</em>. Один пропуск — случайность. Два подряд — начало нового паттерна. <strong>Сегодня возвращаемся. Без лишних слов.</strong> 💪</p>
+  </div>
+</div>
+
+<!-- FINAL SECTION -->
+<div class="final-section" id="final">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <h2>Дисциплина — это не контроль.<br><em>Это устойчивая жизнь.</em></h2>
+    <p>Вы прошли курс. Это само по себе — доказательство, что у вас есть то, что нужно. Теперь действуйте.</p>
+    <div>
+      <button class="btn-white" onclick="showSection('tracker')">Открыть трекер</button>
+      <button class="btn-white" onclick="window.scrollTo(0,0)">Начать с начала</button>
+    </div>
+    <div style="margin-top: 48px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+      <div style="text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 8px;">❤️</div>
+        <div style="font-size: 13px; opacity: 0.7;">Забота о себе</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 8px;">⚖️</div>
+        <div style="font-size: 13px; opacity: 0.7;">Баланс</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 8px;">∞</div>
+        <div style="font-size: 13px; opacity: 0.7;">Устойчивость</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =====================
+// SECTION NAVIGATION
+// =====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  const btns = document.querySelectorAll('.nav-btn');
+  btns.forEach(b => {
+    if (b.textContent.includes(getSectionLabel(id))) b.classList.add('active');
+  });
+}
+
+function getSectionLabel(id) {
+  const map = { intro: 'Введение', module1: '1.', module2: '2.', module3: '3.', module4: '4.', module5: '5.', tracker: 'Трекер' };
+  return map[id] || '';
+}
+
+// Show intro by default
+document.addEventListener('DOMContentLoaded', () => {
+  initTracker();
+  initWheel();
+});
+
+// =====================
+// QUIZ
+// =====================
+function answerQuiz(btn, correct, quizId, feedback) {
+  const options = btn.parentElement.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.classList.add('disabled'); o.onclick = null; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(quizId + '-feedback');
+  fb.textContent = feedback;
+  fb.className = 'quiz-feedback show ' + (correct ? 'correct' : 'wrong');
+}
+
+// =====================
+// REFLECTION SAVE
+// =====================
+function saveReflection(id, btn) {
+  const val = document.getElementById(id).value.trim();
+  if (!val) return;
+  localStorage.setItem('discipline_' + id, val);
+  btn.textContent = '✓ Сохранено!';
+  btn.classList.add('saved');
+  setTimeout(() => {
+    btn.textContent = 'Сохранить →';
+    btn.classList.remove('saved');
+  }, 2500);
+}
+
+// Load saved reflections
+window.addEventListener('load', () => {
+  document.querySelectorAll('.reflection-textarea, textarea').forEach(ta => {
+    const saved = localStorage.getItem('discipline_' + ta.id);
+    if (saved) ta.value = saved;
+  });
+});
+
+// =====================
+// SCALE
+// =====================
+function selectScale(btn, scaleId, val, msg) {
+  btn.parentElement.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const res = document.getElementById(scaleId + '-result');
+  res.textContent = msg;
+  res.classList.add('show');
+}
+
+// =====================
+// CHECKLIST
+// =====================
+let checkCount = 0;
+function toggleCheck(li) {
+  const box = li.querySelector('.check-box');
+  const isChecked = box.classList.contains('checked');
+  if (isChecked) {
+    box.classList.remove('checked');
+    li.classList.remove('done-item');
+    checkCount = Math.max(0, checkCount - 1);
+  } else {
+    box.classList.add('checked');
+    li.classList.add('done-item');
+    checkCount++;
+  }
+  const total = document.querySelectorAll('#space-checklist li').length;
+  const score = document.getElementById('checklist-score');
+  const pct = Math.round(checkCount / total * 100);
+  const msgs = ['Есть куда расти! Выберите 1 пункт и начните сегодня.', 'Хорошее начало! Добавьте ещё 1-2 изменения.', 'Отличная база! Вы уже создаёте поддерживающую среду.', 'Впечатляет! Ваше окружение работает на вас.', '🏆 Идеально! Вы мастер дизайна среды.'];
+  const idx = Math.min(4, Math.floor(pct / 25));
+  score.textContent = `✓ ${checkCount} из ${total} — ${msgs[idx]}`;
+}
+
+// =====================
+// WEEK TOGGLE
+// =====================
+function toggleWeek(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.week-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// =====================
+// HABIT TRACKER
+// =====================
+function initTracker() {
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const weeks = 4;
+  ['h1','h2','h3','h4'].forEach(hid => {
+    const container = document.getElementById(hid);
+    if (!container) return;
+    for (let w = 0; w < weeks; w++) {
+      for (let d = 0; d < 7; d++) {
+        const dot = document.createElement('div');
+        dot.className = 'day-dot';
+        const key = `track_${hid}_${w}_${d}`;
+        const stored = localStorage.getItem(key);
+        if (stored === '1') dot.classList.add('done');
+        const dayLabel = w === 0 ? days[d] : (w * 7 + d + 1);
+        dot.textContent = w === 0 ? days[d] : '';
+        dot.title = `${days[d]}, неделя ${w+1}`;
+        dot.onclick = () => {
+          const done = dot.classList.toggle('done');
+          localStorage.setItem(key, done ? '1' : '0');
+          updateHabitScore(hid, weeks);
+        };
+        container.appendChild(dot);
+      }
+    }
+    updateHabitScore(hid, weeks);
+  });
+}
+
+function updateHabitScore(hid, weeks) {
+  const dots = document.querySelectorAll(`#${hid} .day-dot.done`);
+  const total = weeks * 7;
+  const score = document.getElementById(hid + '-score');
+  if (score) score.textContent = `${dots.length} из ${total} дней ✓`;
+}
+
+// =====================
+// WHEEL OF LIFE
+// =====================
+function initWheel() {
+  const areas = ['Здоровье','Работа','Деньги','Отношения','Рост','Отдых','Семья','Смысл'];
+  const container = document.getElementById('wheel-inputs');
+  if (!container) return;
+  areas.forEach((area, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+    wrap.innerHTML = `
+      <label style="font-size:13px;font-weight:700;color:var(--forest);">${area}</label>
+      <input type="range" id="wheel_${i}" min="1" max="10" value="5"
+        style="accent-color:var(--forest);cursor:pointer;"
+        oninput="document.getElementById('wv_${i}').textContent=this.value">
+      <span id="wv_${i}" style="font-size:12px;color:var(--text-muted);font-weight:700;">5</span>`;
+    container.appendChild(wrap);
+  });
+}
+
+function buildWheel() {
+  const areas = ['Здоровье','Работа','Деньги','Отношения','Рост','Отдых','Семья','Смысл'];
+  const values = areas.map((_, i) => parseInt(document.getElementById('wheel_' + i).value));
+
+  const canvas = document.getElementById('wheelCanvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  const cx = 160, cy = 160, r = 130;
+  const n = areas.length;
+
+  ctx.clearRect(0, 0, 320, 320);
+
+  // Draw grid rings
+  for (let ring = 1; ring <= 10; ring++) {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const pr = (ring / 10) * r;
+      const x = cx + Math.cos(angle) * pr;
+      const y = cy + Math.sin(angle) * pr;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = ring === 10 ? 'rgba(45,90,39,0.3)' : 'rgba(45,90,39,0.08)';
+    ctx.lineWidth = ring === 10 ? 1.5 : 1;
+    ctx.stroke();
+  }
+
+  // Draw spokes
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle) * r, cy + Math.sin(angle) * r);
+    ctx.strokeStyle = 'rgba(45,90,39,0.15)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Draw filled area
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const pr = (values[i] / 10) * r;
+    const x = cx + Math.cos(angle) * pr;
+    const y = cy + Math.sin(angle) * pr;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(45,90,39,0.2)';
+  ctx.fill();
+  ctx.strokeStyle = '#2d5a27';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Dots
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const pr = (values[i] / 10) * r;
+    const x = cx + Math.cos(angle) * pr;
+    const y = cy + Math.sin(angle) * pr;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#2d5a27';
+    ctx.fill();
+  }
+
+  // Labels
+  ctx.font = 'bold 11px Mulish, sans-serif';
+  ctx.fillStyle = '#2a2a2a';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const lr = r + 22;
+    const x = cx + Math.cos(angle) * lr;
+    const y = cy + Math.sin(angle) * lr;
+    ctx.fillText(areas[i], x, y);
+  }
+
+  // Insight
+  const minVal = Math.min(...values);
+  const minIdx = values.indexOf(minVal);
+  const maxVal = Math.max(...values);
+  const maxIdx = values.indexOf(maxVal);
+  const avg = (values.reduce((a,b)=>a+b,0)/n).toFixed(1);
+
+  const insight = document.getElementById('wheel-insight');
+  insight.style.display = 'block';
+  insight.innerHTML = `
+    <div class="week-insight" style="margin-top: 16px;">
+      <strong>Средний балл:</strong> ${avg}/10 &nbsp;·&nbsp;
+      <strong>Зона роста:</strong> ${areas[minIdx]} (${minVal}) &nbsp;·&nbsp;
+      <strong>Сила:</strong> ${areas[maxIdx]} (${maxVal})<br><br>
+      <em>Начните с зоны ${areas[minIdx]} — она перетягивает ваши ресурсы и снижает общий уровень жизни. Одно маленькое изменение здесь даст больше, чем улучшение и без того сильных сфер.</em>
+    </div>`;
+}
+
+// =====================
+// IKIGAI
+// =====================
+function buildIkigai() {
+  const love = document.getElementById('ikigai-love').value.trim();
+  const good = document.getElementById('ikigai-good').value.trim();
+  const world = document.getElementById('ikigai-world').value.trim();
+  const paid = document.getElementById('ikigai-paid').value.trim();
+
+  const res = document.getElementById('ikigai-result');
+  res.style.display = 'block';
+
+  if (!love && !good && !world && !paid) {
+    res.innerHTML = '<span class="card-emoji">💭</span><div class="card-title">Заполните хотя бы 2 поля</div><p>Чем честнее ответы — тем точнее инсайт.</p>';
+    return;
+  }
+
+  const filled = [love, good, world, paid].filter(Boolean).length;
+  let msg = '';
+  if (filled >= 3) {
+    msg = `Ваш Икигай начинает вырисовываться. Точка пересечения "${love || good}" и потребности мира "${world || paid}" — это и есть направление, которое будет давать вам энергию, а не отнимать её. Дисциплина в этом направлении не будет требовать силы воли — она будет естественной.`;
+  } else {
+    msg = `Хорошее начало! Продолжайте заполнять оставшиеся поля — каждый ответ помогает найти точку, в которой дисциплина становится радостью, а не обязанностью.`;
+  }
+
+  res.innerHTML = `<span class="card-emoji">🎯</span><div class="card-title" style="color:white;">Ваш инсайт</div><p>${msg}</p>`;
+}
+</script>
+</body>
+</html>
